@@ -1,0 +1,5 @@
+*.key
+*.crt
+cmd/client/client
+cmd/server/server
+ca/
