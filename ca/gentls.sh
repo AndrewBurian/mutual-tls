@@ -58,18 +58,25 @@ if [[ ! -f ../cmd/server/server.crt ]]; then
 else
     info "Using existing Server cert"
 fi
-error "abort"
-exit
+
 if [[ ! -f ../cmd/client/client.crt ]]; then
     info "Generating Client Key and Cert"
-    openssl req -x509 -config openssl-ca.conf \
+    openssl req \
+        -config server.conf \
         -new \
-        -extensions basic_exts \
-        -out ../cmd/client/client.crt \
+        -out client.csr \
         -outform PEM \
         -keyout ../cmd/client/client.key \
         -keyform PEM \
         -nodes
+
+    openssl ca \
+        -config openssl-ca.conf \
+        -in client.csr \
+        -out ../cmd/client/client.crt \
+        -extensions basic_exts
+
+    rm client.csr
 else
     info "Using existing Client cert"
 fi
