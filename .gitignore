@@ -1,5 +1,7 @@
 *.key
 *.crt
+*.pem
 cmd/client/client
 cmd/server/server
-ca/
+ca/db
+ca/private
