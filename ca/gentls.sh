@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Make the CA key/cert
-if [ ! -d ca ]; then
+if [ ! -f cacert.pem ]; then
     printf "Making CA\n\n"
-    mkdir ca
-    openssl genrsa -out ca/ca.key 2048
-    openssl req -new -x509 -key ca/ca.key -out ca/ca.crt
+
+    # Generate the self signed cert
+    openssl req -x509 -config openssl-ca.cnf -new -outform PEM -extensions ca_exts
 fi
 
 # Generate keys
@@ -21,7 +21,7 @@ CA
 BC
 Vancouver
 Server
-localhost:9001
+Rivendell.local
 .
 .
 .
@@ -36,7 +36,7 @@ if [[ ! -f cmd/client/client.crt ]]; then
 CA
 BC
 Vancouver
-Server
+Client
 client.local
 .
 .
