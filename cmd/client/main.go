@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -8,6 +9,9 @@ import (
 )
 
 func main() {
+	flagServer := flag.String("connect", "localhost:9001", "Server to connect to")
+	flag.Parse()
+
 	config := crypto.GetTLSConfig("client")
 	if config == nil {
 		panic("Config failed")
@@ -19,7 +23,7 @@ func main() {
 		},
 	}
 
-	resp, err := cli.Get("https://localhost:9001/")
+	resp, err := cli.Get("https://" + *flagServer)
 	if err != nil {
 		panic(err)
 	}
