@@ -32,6 +32,7 @@ func GetTLSConfig(name string) *tls.Config {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{cert},
 		ClientCAs:    pool,
+		RootCAs:      pool,
 		ClientAuth:   tls.RequireAndVerifyClientCert,
 	}
 

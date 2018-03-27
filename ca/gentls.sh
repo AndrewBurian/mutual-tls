@@ -38,6 +38,7 @@ fi
 # Generate server certificate
 if [[ ! -f ../cmd/server/server.crt ]]; then
     info "Generating Server Key and Request"
+    info "Generating Server CSR"
     openssl req \
         -config server.conf \
         -new \
@@ -47,11 +48,13 @@ if [[ ! -f ../cmd/server/server.crt ]]; then
         -keyform PEM \
         -nodes
 
+    info "Signing CSR"
     openssl ca \
         -config openssl-ca.conf \
         -in server.csr \
         -out ../cmd/server/server.crt \
-        -extensions basic_exts
+        -extensions basic_exts \
+        -batch
 
     rm server.csr
 
@@ -61,6 +64,7 @@ fi
 
 if [[ ! -f ../cmd/client/client.crt ]]; then
     info "Generating Client Key and Cert"
+    info "Generating Client CSR"
     openssl req \
         -config server.conf \
         -new \
@@ -70,11 +74,13 @@ if [[ ! -f ../cmd/client/client.crt ]]; then
         -keyform PEM \
         -nodes
 
+    info "Signing CSR"
     openssl ca \
         -config openssl-ca.conf \
         -in client.csr \
         -out ../cmd/client/client.crt \
-        -extensions basic_exts
+        -extensions basic_exts \
+        -batch
 
     rm client.csr
 else
